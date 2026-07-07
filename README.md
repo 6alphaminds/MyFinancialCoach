@@ -1,6 +1,6 @@
 # My Financial Coach
 
-A gamified financial-literacy web app that turns the **MAS Basic Financial Planning Guide** into a strict, sequential accountability journey for young Singaporeans (aged 19–29) entering the workforce.
+A financial-literacy web app that turns the **MAS Basic Financial Planning Guide** into a strict, sequential accountability journey for young Singaporeans (aged 19–29) entering the workforce.
 
 **Live site:** https://6alphaminds.github.io/MyFinancialCoach/
 **Team:** Alpha Minds · Republic Polytechnic C240 (AI in Action) Final Assessment 2026
