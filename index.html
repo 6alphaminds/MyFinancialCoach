@@ -1,0 +1,423 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>My Financial Coach — one level at a time</title>
+  <meta name="description" content="A step-by-step financial coach for young Singaporeans, grounded in official MAS benchmarks. By Team Alpha Minds." />
+
+  <!-- Fonts: Bricolage Grotesque (display), Figtree (body), IBM Plex Mono (benchmark chips) -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,500;12..96,700;12..96,800&family=Figtree:wght@400;500;600;700&family=IBM+Plex+Mono:wght@500;600&display=swap" rel="stylesheet" />
+
+  <!-- Tailwind CDN (layout utilities only; brand styling lives in style.css) -->
+  <script src="https://cdn.tailwindcss.com"></script>
+
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+
+  <!-- ============================================================ -->
+  <!-- STICKY NAV                                                    -->
+  <!-- ============================================================ -->
+  <header class="site-nav" id="top">
+    <nav class="mx-auto max-w-6xl px-5 flex items-center justify-between gap-4" aria-label="Main">
+      <a href="#top" class="brand" aria-label="My Financial Coach — back to top">
+        <!-- Alpha Minds logo -->
+        <img class="brand-mark" src="alphaminds-logo.png" alt="" />
+        <span class="brand-name">My Financial Coach</span>
+      </a>
+
+      <button class="nav-toggle md:hidden" id="navToggle" aria-expanded="false" aria-controls="navLinks" aria-label="Open menu">
+        <span class="nav-toggle-bar"></span>
+        <span class="nav-toggle-bar"></span>
+        <span class="nav-toggle-bar"></span>
+      </button>
+
+      <div class="nav-links" id="navLinks">
+        <a href="#journey" class="nav-link">The journey</a>
+        <a href="#coach" class="nav-link">Coach chat</a>
+        <a href="#how" class="nav-link">How it works</a>
+        <a href="app.html" class="btn btn-accent btn-sm">Open my workspace</a>
+      </div>
+    </nav>
+  </header>
+
+  <main>
+
+    <!-- ============================================================ -->
+    <!-- 1. HERO                                                       -->
+    <!-- ============================================================ -->
+    <section class="hero" id="hero">
+      <div class="mx-auto max-w-6xl px-5 grid md:grid-cols-2 gap-10 md:gap-14 items-center">
+
+        <div class="hero-copy">
+          <p class="eyebrow">For young Singaporeans, 19–29</p>
+          <h1 class="hero-title">Your first paycheck to your first home — <span class="hero-highlight">one level at a time</span></h1>
+          <p class="hero-sub">A friendly coach that turns official MAS financial planning benchmarks into a simple four-level path. Chat naturally, get your targets, and let Telegram keep you on track.</p>
+          <div class="hero-actions">
+            <a href="app.html" class="btn btn-accent">Open my workspace</a>
+            <a href="#journey" class="btn btn-ghost">See the four levels</a>
+          </div>
+          <p class="hero-note">Grounded in the MAS Basic Financial Planning Guide · Built by Team Alpha Minds</p>
+        </div>
+
+        <!-- Hero visual: a mock "level card" from the coaching journey -->
+        <div class="hero-visual" aria-hidden="true">
+          <div class="coach-card">
+            <div class="coach-card-head">
+              <span class="level-pill">Level 1 of 4</span>
+              <span class="streak-pill">Weekly check-in on</span>
+            </div>
+            <h2 class="coach-card-title">Emergency fund</h2>
+            <p class="coach-card-line">Build your safety net first — everything else unlocks after.</p>
+            <div class="coach-card-progress">
+              <div class="progress-track"><div class="progress-fill"></div></div>
+              <span class="progress-label">In progress</span>
+            </div>
+            <div class="level-dots">
+              <span class="dot dot-active">1</span>
+              <span class="dot-path"></span>
+              <span class="dot dot-locked">2</span>
+              <span class="dot-path"></span>
+              <span class="dot dot-locked">3</span>
+              <span class="dot-path"></span>
+              <span class="dot dot-locked">4</span>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </section>
+
+    <!-- ============================================================ -->
+    <!-- 2. PROBLEM & AUDIENCE  (built in phase 2)                     -->
+    <!-- ============================================================ -->
+    <section class="section" id="problem">
+      <div class="mx-auto max-w-6xl px-5">
+        <p class="eyebrow">Why this exists</p>
+        <h2 class="section-title">You know the theory. Now get a kickstart.</h2>
+
+        <p class="problem-lead">Most young Singaporeans have already heard the advice — save an emergency fund, get insured, start investing. But advice isn't a plan. The <strong>MAS Basic Financial Planning Guide</strong> sets the benchmarks; what's missing is someone to turn them into your next small step — and to check you actually took it.</p>
+
+        <div class="grid md:grid-cols-2 gap-5 problem-contrast">
+          <div class="contrast-card contrast-gap">
+            <h3 class="contrast-title">The usual experience</h3>
+            <ul class="contrast-list">
+              <li>Scattered articles and calculators</li>
+              <li>One-off advice with no follow-through</li>
+              <li>Jargon that assumes you already know</li>
+            </ul>
+          </div>
+          <div class="contrast-card contrast-fix">
+            <h3 class="contrast-title">With your coach</h3>
+            <ul class="contrast-list">
+              <li>One clear level at a time</li>
+              <li>Weekly nudges that build the habit</li>
+              <li>Plain English, grounded in MAS benchmarks</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ============================================================ -->
+    <!-- 3. THE 4-LEVEL JOURNEY  (built in phase 2)                    -->
+    <!-- ============================================================ -->
+    <section class="section section-tint" id="journey">
+      <div class="mx-auto max-w-6xl px-5">
+        <p class="eyebrow">The journey</p>
+        <h2 class="section-title">Four levels, in order — no skipping ahead</h2>
+        <p class="journey-intro">Each level builds on the one before, mirroring the MAS planning sequence. You start at Level&nbsp;1; the rest unlock as you go.</p>
+
+        <div class="journey-path">
+
+          <!-- Level 1 — unlocked -->
+          <div class="level-step is-unlocked">
+            <div class="level-node"><span class="level-num">1</span></div>
+            <article class="level-card">
+              <div class="level-card-head">
+                <h3 class="level-title">Emergency fund &amp; money management</h3>
+                <span class="level-tag tag-start">Start here</span>
+              </div>
+              <p class="level-desc">Build a safety net and get your monthly money flowing the right way.</p>
+              <div class="level-benchmark">
+                <span class="benchmark-tag">MAS benchmark</span>
+                <span class="benchmark-value">3–6 months of expenses</span>
+              </div>
+            </article>
+          </div>
+
+          <!-- Level 2 — locked -->
+          <div class="level-step is-locked">
+            <div class="level-node">
+              <svg class="lock-icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M7 10V7a5 5 0 0 1 10 0v3h1a2 2 0 0 1 2 2v7a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2v-7a2 2 0 0 1 2-2h1zm2 0h6V7a3 3 0 0 0-6 0v3z"/></svg>
+            </div>
+            <article class="level-card">
+              <div class="level-card-head">
+                <h3 class="level-title">Insurance protection</h3>
+                <span class="level-tag tag-locked">Locked</span>
+              </div>
+              <p class="level-desc">Shield your income from illness and life's curveballs.</p>
+              <div class="level-benchmark">
+                <span class="benchmark-tag">MAS benchmark</span>
+                <span class="benchmark-value">9x / 4x annual income cover</span>
+              </div>
+              <button class="level-hint-toggle" type="button" aria-expanded="false">Why is this locked?</button>
+              <p class="level-hint" hidden>Unlocks after Level&nbsp;1. Your emergency fund comes first — it's the cushion that keeps everything else safe.</p>
+            </article>
+          </div>
+
+          <!-- Level 3 — locked -->
+          <div class="level-step is-locked">
+            <div class="level-node">
+              <svg class="lock-icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M7 10V7a5 5 0 0 1 10 0v3h1a2 2 0 0 1 2 2v7a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2v-7a2 2 0 0 1 2-2h1zm2 0h6V7a3 3 0 0 0-6 0v3z"/></svg>
+            </div>
+            <article class="level-card">
+              <div class="level-card-head">
+                <h3 class="level-title">Investing</h3>
+                <span class="level-tag tag-locked">Locked</span>
+              </div>
+              <p class="level-desc">Put your money to work — once your foundation is solid.</p>
+              <div class="level-benchmark">
+                <span class="benchmark-tag">MAS benchmark</span>
+                <span class="benchmark-value">≥10% of take-home pay</span>
+              </div>
+              <button class="level-hint-toggle" type="button" aria-expanded="false">Why is this locked?</button>
+              <p class="level-hint" hidden>Unlocks after Levels&nbsp;1–2. MAS guidance is clear: invest only once you're protected.</p>
+            </article>
+          </div>
+
+          <!-- Level 4 — locked -->
+          <div class="level-step is-locked">
+            <div class="level-node">
+              <svg class="lock-icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M7 10V7a5 5 0 0 1 10 0v3h1a2 2 0 0 1 2 2v7a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2v-7a2 2 0 0 1 2-2h1zm2 0h6V7a3 3 0 0 0-6 0v3z"/></svg>
+            </div>
+            <article class="level-card">
+              <div class="level-card-head">
+                <h3 class="level-title">Home &amp; retirement</h3>
+                <span class="level-tag tag-locked">Locked</span>
+              </div>
+              <p class="level-desc">Plan the big milestones — your first home and beyond.</p>
+              <div class="level-benchmark">
+                <span class="benchmark-tag">MAS benchmark</span>
+                <span class="benchmark-value">Plan with official calculators</span>
+              </div>
+              <button class="level-hint-toggle" type="button" aria-expanded="false">Why is this locked?</button>
+              <p class="level-hint" hidden>Unlocks after Levels&nbsp;1–3. The big goals build on a solid base beneath them.</p>
+            </article>
+          </div>
+
+        </div>
+      </div>
+    </section>
+
+    <!-- ============================================================ -->
+    <!-- 4. COACH CHAT  (built in phase 3)                             -->
+    <!-- ============================================================ -->
+    <section class="section" id="coach">
+      <div class="mx-auto max-w-6xl px-5">
+        <p class="eyebrow">Coach chat</p>
+        <h2 class="section-title">Ask your coach anything about the basics</h2>
+
+        <div class="grid md:grid-cols-2 gap-8 md:gap-10 coach-grid">
+
+          <div class="coach-intro">
+            <p class="coach-lead">Your coach is a chatbot grounded only in official sources — the MAS Basic Financial Planning Guide, MoneySense articles, and HDB home-financing pages. Ask in plain English; it answers from the guide and points you to the right official tool when a figure changes.</p>
+            <ul class="coach-points">
+              <li>Grounded in 29 official MoneySense &amp; MAS sources — and it always cites them</li>
+              <li>Explains your dashboard targets in plain English, never re-does the math</li>
+              <li>Won't recommend products or stocks — it points you to a licensed adviser</li>
+              <li>Only asks for the basics — never your NRIC, bank details, or passwords</li>
+            </ul>
+            <a class="btn btn-accent" href="#onboarding">Set up your coach</a>
+          </div>
+
+          <!-- Native-styled chat window showing a sample conversation.
+               The LIVE Botpress webchat is embedded on app.html. -->
+          <div class="coach-window" role="group" aria-label="Coach chat preview">
+            <div class="coach-window-head">
+              <span class="coach-avatar" aria-hidden="true">
+                <svg viewBox="0 0 32 32"><rect x="4" y="18" width="4" height="8" rx="1.2"/><rect x="11" y="14" width="4" height="12" rx="1.2"/><rect x="18" y="10" width="4" height="16" rx="1.2"/><rect x="25" y="6" width="4" height="20" rx="1.2"/></svg>
+              </span>
+              <span class="coach-id">
+                <span class="coach-name">My Financial Coach</span>
+                <span class="coach-status"><span class="status-dot"></span>Grounded in MAS guidance</span>
+              </span>
+              <span class="coach-preview-badge">Preview</span>
+            </div>
+
+            <div class="coach-window-body">
+              <p class="msg msg-bot">Hi! I'm your financial coach. Let's start with Level 1 — roughly how much do you take home each month?</p>
+              <p class="msg msg-user">About $2,800.</p>
+              <p class="msg msg-bot">Got it — $2,800 take-home each month. And what are your monthly expenses?</p>
+              <p class="msg msg-user">Around $1,400.</p>
+              <p class="msg msg-bot">Thanks! Your dashboard will set an emergency-fund target of 3–6 months of expenses, following the MAS guide. Let's build toward it together.</p>
+            </div>
+
+            <div class="coach-window-foot">
+              <span class="coach-input-mock" aria-hidden="true">Message your coach…</span>
+              <!-- Part of the static preview mock — intentionally inert. -->
+              <button class="coach-send" type="button" disabled aria-disabled="true" title="This is a preview — set up your coach to chat for real">Send</button>
+            </div>
+          </div>
+
+        </div>
+
+        <p class="coach-appnote">This is a preview. <a href="#onboarding">Set up your coach</a> to unlock your live workspace — the real chat, right beside your progress dashboard.</p>
+
+      </div>
+    </section>
+
+    <!-- ============================================================ -->
+    <!-- 5. ONBOARDING / CONNECT TELEGRAM  (built in phase 3)          -->
+    <!-- ============================================================ -->
+    <section class="section section-tint" id="onboarding">
+      <div class="mx-auto max-w-6xl px-5">
+        <p class="eyebrow">Get started</p>
+        <h2 class="section-title">Set up your coach in three steps</h2>
+
+        <!-- 3-step onboarding flow (Ezann's spec). Step state lives in site.js.
+             Single-user scope: user_id is fixed to "user1". -->
+        <div class="onboard" id="onboarding-flow" data-user-id="user1">
+
+          <ol class="onboard-steps">
+            <li class="step-dot is-active" data-dot="1"><span class="step-dot-num">1</span><span class="step-dot-label">Welcome</span></li>
+            <li class="step-dot" data-dot="2"><span class="step-dot-num">2</span><span class="step-dot-label">Set up nudges</span></li>
+            <li class="step-dot" data-dot="3"><span class="step-dot-num">3</span><span class="step-dot-label">Start coaching</span></li>
+          </ol>
+
+          <div class="onboard-panels">
+
+            <!-- Step 1 — Welcome -->
+            <div class="onboard-panel" data-step="1">
+              <h3 class="step-heading" tabindex="-1">Let's set up your financial coach.</h3>
+              <p class="step-copy">It takes about a minute. You'll set up your own Telegram nudges so your coach can check in on you each week, then jump straight into your first level.</p>
+              <button class="btn btn-accent" type="button" data-goto="2">Let's go</button>
+            </div>
+
+            <!-- Step 2 — Set up your own nudges (self-hosted bot) -->
+            <div class="onboard-panel" data-step="2" hidden>
+              <h3 class="step-heading" tabindex="-1">Set up your own nudges</h3>
+              <p class="step-copy">Weekly check-ins come from a Telegram bot that <strong>you</strong> own and control. Creating one takes a few minutes:</p>
+
+              <ol class="setup-steps">
+                <li><strong>Create your bot.</strong> Message <code>@BotFather</code> on Telegram, send <code>/newbot</code>, follow the prompts, and copy your bot token.</li>
+                <li><strong>Add the token.</strong> Paste it into your n8n Telegram credential (or your Python scheduler config).</li>
+                <li><strong>Register yourself.</strong> Open a chat with your new bot and send <code>/start</code>.</li>
+                <li><strong>You're set.</strong> Your weekly nudges now come from your own bot.</li>
+              </ol>
+
+              <p class="onboard-note">Your bot, your token, your data — nothing runs through anyone else's account.</p>
+
+              <div class="onboard-actions">
+                <button class="btn btn-ghost btn-sm" type="button" data-goto="1">Back</button>
+                <button class="btn btn-accent btn-sm" type="button" data-goto="3">Continue</button>
+              </div>
+            </div>
+
+            <!-- Step 3 — Enter the dashboard -->
+            <div class="onboard-panel" data-step="3" hidden>
+              <div class="onboard-success">
+                <span class="success-check" aria-hidden="true">
+                  <svg viewBox="0 0 24 24"><path d="M20 6L9 17l-5-5"/></svg>
+                </span>
+                <h3 class="step-heading" tabindex="-1">You're all set! Your coach is ready.</h3>
+                <p class="step-copy">Your weekly check-ins are on. Head to your workspace to enter your numbers and start Level&nbsp;1.</p>
+                <div class="onboard-actions onboard-actions-center">
+                  <button class="btn btn-ghost btn-sm" type="button" data-goto="2">Back</button>
+                  <a class="btn btn-accent" href="app.html" data-start-coaching>Start coaching</a>
+                </div>
+              </div>
+            </div>
+
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ============================================================ -->
+    <!-- 6. HOW IT WORKS  (built in phase 4)                           -->
+    <!-- ============================================================ -->
+    <section class="section" id="how">
+      <div class="mx-auto max-w-6xl px-5">
+        <p class="eyebrow">How it works</p>
+        <h2 class="section-title">From a chat to a habit</h2>
+        <p class="how-intro">Four pieces working together — you just have the conversation.</p>
+
+        <div class="how-strip">
+
+          <div class="how-step">
+            <div class="how-icon">
+              <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M21 11.5a8.38 8.38 0 0 1-8.5 8.5 8.5 8.5 0 0 1-3.8-.9L3 21l1.9-5.7a8.5 8.5 0 0 1-.9-3.8A8.38 8.38 0 0 1 12.5 3 8.38 8.38 0 0 1 21 11.5z"/></svg>
+            </div>
+            <h3 class="how-title">Chat naturally</h3>
+            <p class="how-line">Tell your coach about your money in plain English.</p>
+          </div>
+
+          <div class="how-step">
+            <div class="how-icon">
+              <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3l1.9 4.6L18.5 9l-4.6 1.9L12 15l-1.9-4.1L5.5 9l4.6-1.4L12 3z"/><path d="M18 14l.8 2 2 .8-2 .8-.8 2-.8-2-2-.8 2-.8.8-2z"/></svg>
+            </div>
+            <h3 class="how-title">AI extracts your numbers</h3>
+            <p class="how-line">Gemini pulls the key figures out of what you said.</p>
+          </div>
+
+          <div class="how-step">
+            <div class="how-icon">
+              <svg viewBox="0 0 24 24" aria-hidden="true"><rect x="4" y="2" width="16" height="20" rx="2"/><line x1="8" y1="6" x2="16" y2="6"/><line x1="8" y1="10" x2="8" y2="10"/><line x1="12" y1="10" x2="12" y2="10"/><line x1="16" y1="10" x2="16" y2="10"/><line x1="8" y1="14" x2="8" y2="14"/><line x1="12" y1="14" x2="12" y2="14"/><line x1="8" y1="18" x2="16" y2="18"/></svg>
+            </div>
+            <h3 class="how-title">Our code calculates your MAS targets</h3>
+            <p class="how-line">The app applies the official MAS benchmarks — deterministically.</p>
+          </div>
+
+          <div class="how-step">
+            <div class="how-icon">
+              <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M9.78 18.65l.28-4.23 7.68-6.92c.34-.31-.07-.46-.52-.19L7.74 13.3 3.64 12c-.88-.25-.89-.86.2-1.3l15.97-6.16c.73-.33 1.43.18 1.15 1.3l-2.72 12.81c-.19.91-.74 1.13-1.5.71L12.6 16.3l-1.99 1.93c-.23.23-.42.42-.83.42z"/></svg>
+            </div>
+            <h3 class="how-title">Telegram keeps you accountable</h3>
+            <p class="how-line">Weekly check-ins and streaks keep the habit going.</p>
+          </div>
+
+        </div>
+      </div>
+    </section>
+
+  </main>
+
+  <!-- ============================================================ -->
+  <!-- 7. FOOTER  (built in phase 4)                                 -->
+  <!-- ============================================================ -->
+  <footer class="site-footer">
+    <div class="mx-auto max-w-6xl px-5 footer-inner">
+
+      <div class="footer-brand">
+        <a href="#top" class="brand" aria-label="My Financial Coach — back to top">
+          <img class="brand-mark" src="alphaminds-logo.png" alt="" />
+          <span class="brand-name">My Financial Coach</span>
+        </a>
+        <p class="footer-tagline">Your first paycheck to your first home — one level at a time.</p>
+      </div>
+
+      <div class="footer-meta">
+        <p class="footer-team">By <strong>Team Alpha Minds</strong> · Module C240</p>
+        <p class="footer-disclaimer">Educational coaching grounded in published MAS benchmarks — not regulated financial advice.</p>
+        <nav class="footer-links" aria-label="Official resources">
+          <a href="https://www.moneysense.gov.sg" target="_blank" rel="noopener">MoneySense</a>
+          <a href="https://www.moneysense.gov.sg/planning-your-finances-well/" target="_blank" rel="noopener">MAS Basic Financial Planning Guide</a>
+        </nav>
+      </div>
+
+    </div>
+  </footer>
+
+  <script src="site.js"></script>
+
+  <!-- RYAN: app.js mount point — add MAS calculation logic here.
+       site.js exposes window.MFC (see site.js) for UI hooks.
+       Do not add calculation code to site.js. -->
+  <!-- <script src="app.js"></script> -->
+
+</body>
+</html>

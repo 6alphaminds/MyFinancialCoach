@@ -1,0 +1,365 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+  <title>My Financial Coach — your workspace</title>
+  <meta name="description" content="Your progress dashboard and coach chat. My Financial Coach by Team Alpha Minds." />
+
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,500;12..96,700;12..96,800&family=Figtree:wght@400;500;600;700&family=IBM+Plex+Mono:wght@500;600&display=swap" rel="stylesheet" />
+
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+
+  <!-- App header (shares branding with the landing page) -->
+  <header class="site-nav">
+    <nav class="mx-auto max-w-6xl px-5 flex items-center justify-between gap-4" aria-label="Workspace">
+      <a href="index.html" class="brand" aria-label="My Financial Coach — home">
+        <img class="brand-mark" src="alphaminds-logo.png" alt="" />
+        <span class="brand-name">My Financial Coach</span>
+      </a>
+      <div class="app-nav-right">
+        <a href="index.html" class="nav-link">Home</a>
+      </div>
+    </nav>
+  </header>
+
+  <main class="app-main">
+    <div class="mx-auto max-w-6xl px-5">
+
+      <div class="app-head">
+        <p class="eyebrow">Your workspace</p>
+        <h1 class="app-title">Welcome back — let's keep going</h1>
+      </div>
+
+      <div class="workspace">
+
+        <!-- ========================================================= -->
+        <!-- PROGRESS DASHBOARD                                         -->
+        <!-- Presentation only. Ryan's app.js feeds real numbers via   -->
+        <!-- window.MFC.updateDashboard(...) — see site.js. Values are  -->
+        <!-- clearly-labelled SAMPLE data for the demo.                -->
+        <!-- ========================================================= -->
+        <section id="dashboard" aria-label="Your progress dashboard">
+          <p class="dash-sub">Sample view — your coach keeps these numbers up to date as you go.</p>
+
+          <div class="dash-stats">
+            <div class="dash-stat">
+              <span class="dash-stat-label">Current level</span>
+              <span class="dash-stat-value">Level <span data-dash="level">1</span> · <span data-dash="level-title">Emergency fund</span></span>
+            </div>
+            <div class="dash-stat">
+              <span class="dash-stat-label">This level</span>
+              <span class="dash-stat-value"><span data-dash="items-done">—</span> / <span data-dash="items-total">—</span> items done</span>
+            </div>
+            <div class="dash-stat">
+              <span class="dash-stat-label">Overall</span>
+              <span class="dash-stat-value"><span data-dash="completed">0</span> of 4 levels done</span>
+              <div class="dash-overall"><div class="dash-overall-fill" data-dash="overall"></div></div>
+            </div>
+          </div>
+
+          <div class="dash-grid">
+
+            <div class="dash-focus">
+              <span class="dash-focus-tag">You're on Level <span data-dash="level">1</span></span>
+              <h3 class="dash-focus-title" data-dash="level-title">Emergency fund</h3>
+
+              <div class="dash-ring-row">
+                <div class="dash-ring">
+                  <svg viewBox="0 0 120 120" aria-hidden="true">
+                    <circle class="ring-bg" cx="60" cy="60" r="52" />
+                    <circle class="ring-fg" cx="60" cy="60" r="52" data-dash="ring" />
+                  </svg>
+                  <div class="ring-label">
+                    <span class="ring-pct" data-dash="pct">59%</span>
+                    <span class="ring-cap" data-dash="ring-cap">of target</span>
+                  </div>
+                </div>
+                <div class="dash-figures">
+                  <p class="dash-detail" data-dash="detail">$2,478 saved of $4,200 sample target</p>
+                  <p class="dash-bench" data-dash="hero-caption">MAS benchmark · 3 months of expenses (minimum safety net)</p>
+                  <p class="dash-next"><span class="dash-next-label">Next step</span> <span data-dash="next">You're 59% there — keep going to unlock insurance.</span></p>
+                </div>
+              </div>
+
+              <!-- Emergency-fund tracker: stays visible after L1 unlocks at 3x,
+                   so the fund's progress toward the 6x target never disappears -->
+              <div class="dash-fundbar" data-dash="fundbar" hidden>
+                <span class="dash-fundbar-label">Emergency fund · <span data-dash="fundbar-pct">0%</span> of <span data-dash="fundbar-target">$0</span></span>
+                <div class="dash-fundbar-track"><div class="dash-fundbar-fill" data-dash="fundbar-fill"></div></div>
+              </div>
+
+            </div>
+
+            <div class="dash-track">
+              <h3 class="dash-track-title">Your four levels</h3>
+              <ol class="dash-levels">
+                <li class="dash-lvl" data-lvl="1">
+                  <span class="dash-lvl-badge"></span>
+                  <span class="dash-lvl-body">
+                    <span class="dash-lvl-title">Emergency fund &amp; money management</span>
+                    <span class="dash-lvl-bench">3 months of expenses (minimum safety net)</span>
+                  </span>
+                  <span class="dash-lvl-status"></span>
+                </li>
+                <li class="dash-lvl" data-lvl="2">
+                  <span class="dash-lvl-badge"></span>
+                  <span class="dash-lvl-body">
+                    <span class="dash-lvl-title">Insurance protection</span>
+                    <span class="dash-lvl-bench">9x / 4x annual income cover</span>
+                  </span>
+                  <span class="dash-lvl-status"></span>
+                </li>
+                <li class="dash-lvl" data-lvl="3">
+                  <span class="dash-lvl-badge"></span>
+                  <span class="dash-lvl-body">
+                    <span class="dash-lvl-title">Investing</span>
+                    <span class="dash-lvl-bench">≥10% of take-home pay</span>
+                  </span>
+                  <span class="dash-lvl-status"></span>
+                </li>
+                <li class="dash-lvl" data-lvl="4">
+                  <span class="dash-lvl-badge"></span>
+                  <span class="dash-lvl-body">
+                    <span class="dash-lvl-title">Home &amp; retirement</span>
+                    <span class="dash-lvl-bench">Plan with official calculators</span>
+                  </span>
+                  <span class="dash-lvl-status"></span>
+                </li>
+              </ol>
+            </div>
+
+          </div>
+
+          <!-- =====================================================
+               YOUR ACTION PLAN (Plan -> Do -> Check) — deterministic
+               checklist rendered by app.js from generatePlan(state).
+               Current level = active checklist; completed levels
+               collapse to Done rows; future levels show locked.
+               ===================================================== -->
+          <div class="plan-panel" id="planPanel">
+            <div class="plan-head">
+              <h3 class="plan-title">Your action plan</h3>
+              <span class="plan-progress" data-plan="progress" hidden></span>
+            </div>
+
+            <ul class="plan-context" data-plan="done-strip"></ul>
+
+            <div data-plan="active">
+              <p class="plan-hero" data-plan="hero" hidden>
+                <span class="plan-hero-label">This week</span>
+                <span data-plan="hero-text"></span>
+              </p>
+              <ol class="plan-list" data-plan="list"></ol>
+              <p class="plan-empty" data-plan="empty" hidden></p>
+            </div>
+
+            <ul class="plan-context" data-plan="locked-strip"></ul>
+          </div>
+
+          <!-- =====================================================
+               "ENTER MY NUMBERS" — demo-safe fallback (Ryan spec §5).
+               Two doors, one pipeline: this form and the coach chat
+               both feed window.MFC.ingestExtraction (Contract 2).
+               ===================================================== -->
+          <div class="entry-panel" id="entry">
+            <h3 class="entry-title">Enter my numbers</h3>
+            <p class="entry-sub">Type your basics in, or just tell your coach in the chat — both feed the same calculator. Insurance and investing figures go through the coach chat.</p>
+
+            <form id="entryForm" novalidate>
+              <div class="entry-grid">
+                <label class="entry-field">
+                  <span class="entry-label">Monthly take-home income</span>
+                  <input type="number" name="monthly_take_home_income" min="0" step="any" inputmode="decimal" placeholder="e.g. 2800" />
+                </label>
+                <label class="entry-field">
+                  <span class="entry-label">Monthly expenses</span>
+                  <input type="number" name="monthly_expenses" min="0" step="any" inputmode="decimal" placeholder="e.g. 1400" />
+                </label>
+                <label class="entry-field">
+                  <span class="entry-label">Current savings</span>
+                  <input type="number" name="current_savings" min="0" step="any" inputmode="decimal" placeholder="e.g. 4956" />
+                </label>
+              </div>
+
+              <div class="entry-actions">
+                <button class="btn btn-accent btn-sm" type="submit">Save my numbers</button>
+                <p class="entry-status" id="entryStatus" role="status" aria-live="polite" hidden></p>
+              </div>
+            </form>
+          </div>
+
+          <!-- level-up celebration toast -->
+          <div class="dash-toast" data-dash="toast" hidden role="status" aria-live="polite">
+            <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M20 6L9 17l-5-5"/></svg>
+            <span data-dash="toast-text">Level complete!</span>
+          </div>
+        </section>
+
+      </div>
+
+      <!-- =========================================================
+           CONNECT TELEGRAM (OPTIONAL) — opt-in for encouragement
+           nudges. UI only: app.js wires it to setCoachEventSettings;
+           events stay OFF until BOTH fields are filled. No token and
+           no Telegram host here — the bot secret lives in n8n.
+           ========================================================= -->
+      <div class="entry-panel" id="tgConnect">
+        <h3 class="entry-title">Connect Telegram (optional)</h3>
+        <p class="entry-sub">Paste your Telegram chat ID (from /start) and your n8n webhook URL to get a nudge as you complete each step. Leave blank to keep this off.</p>
+        <form id="tgConnectForm" novalidate>
+          <div class="entry-grid">
+            <label class="entry-field">
+              <span class="entry-label">Telegram chat ID</span>
+              <input type="text" id="tgChatId" name="tgChatId" inputmode="numeric" autocomplete="off" autocapitalize="off" spellcheck="false" placeholder="e.g. 123456789" />
+            </label>
+            <label class="entry-field">
+              <span class="entry-label">n8n webhook URL</span>
+              <input type="url" id="n8nWebhook" name="n8nWebhook" autocomplete="off" autocapitalize="off" spellcheck="false" placeholder="https://your-n8n-host/webhook/…" />
+            </label>
+          </div>
+          <div class="entry-actions">
+            <button class="btn btn-ghost btn-sm" type="submit">Save Telegram settings</button>
+            <p class="entry-status" id="tgConnectStatus" role="status" aria-live="polite">Off</p>
+          </div>
+        </form>
+      </div>
+
+      <!-- Workspace settings row -->
+      <div class="workspace-settings">
+        <button class="btn btn-ghost btn-sm" type="button" id="resetDataBtn">Reset my data</button>
+      </div>
+    </div>
+  </main>
+
+  <!-- Floating "Ask Coach AI" button — toggles the Botpress webchat,
+       which now floats bottom-right in its default window (the button
+       hides itself while the chat is open; the chat's X closes it). -->
+  <button type="button" class="coach-fab" id="askCoachBtn" aria-haspopup="dialog" aria-expanded="false">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+      <path d="M12 3l1.9 4.6L18.5 9.5l-4.6 1.9L12 16l-1.9-4.6L5.5 9.5l4.6-1.9L12 3z"/>
+      <path d="M19 14l.8 1.9 1.9.8-1.9.8L19 19.4l-.8-1.9-1.9-.8 1.9-.8L19 14z"/>
+    </svg>
+    Ask Coach AI
+  </button>
+
+  <!-- Reset confirmation dialog (wired in app.js) -->
+  <div class="mfc-modal" id="resetModal" hidden>
+    <div class="mfc-modal-backdrop" id="resetBackdrop"></div>
+    <div class="mfc-modal-card" role="dialog" aria-modal="true" aria-labelledby="resetTitle" aria-describedby="resetDesc">
+      <h2 class="mfc-modal-title" id="resetTitle">Reset my data</h2>
+      <p class="mfc-modal-text" id="resetDesc">This will clear all your saved numbers and progress and start you fresh. Continue?</p>
+      <div class="mfc-modal-actions">
+        <button class="btn btn-ghost btn-sm" type="button" id="resetCancel">Cancel</button>
+        <button class="btn btn-accent btn-sm" type="button" id="resetConfirm">Yes, reset</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ============================================================
+       LIVE BOTPRESS WEBCHAT — floating window, opened by the custom
+       "Ask Coach AI" button (Botpress's own bubble stays hidden via
+       CSS; our branded button is the single entry point).
+       Runtime stays pinned to webchat v3.3 (the version this config
+       was built against; v3.6 changes the DOM contract).
+       The init object below is Sammi's generated config, copied
+       verbatim. SAMMI: if you regenerate the snippet in Botpress
+       Studio, replace the init object below with the new contents.
+       ============================================================ -->
+  <script src="https://cdn.botpress.cloud/webchat/v3.3/inject.js"></script>
+  <script>
+    (function () {
+      if (!window.botpress || typeof window.botpress.init !== "function") return;
+
+      window.botpress.init({
+        "botId": "ae7f97d0-1d27-40d4-827b-30077dd61c64",
+        "clientId": "69779f1d-ebc2-4f5a-b985-406d58000554",
+        "configuration": {
+          "version": "v2",
+          "composerPlaceholder": "Ask me about saving, insurance, or your next step...",
+          "botName": "My Financial Coach",
+          "botAvatar": "https://files.bpcontent.cloud/2026/07/05/05/20260705050727-UPI26K3Q.png",
+          "botDescription": "Your MAS-benchmarked financial coach — one level at a time.",
+          "website": {},
+          "email": {},
+          "phone": {},
+          "termsOfService": {},
+          "privacyPolicy": {},
+          "color": "#0E7C66",
+          "variant": "solid",
+          "headerVariant": "solid",
+          "themeMode": "light",
+          "fontFamily": "Bricolage Grotesque",
+          "radius": 4,
+          "feedbackEnabled": false,
+          "footer": "[⚡ by Botpress](https://botpress.com/?from=webchat)",
+          "soundEnabled": false,
+          "proactiveMessageEnabled": false,
+          "proactiveBubbleMessage": "Hi! 👋 Need help?",
+          "proactiveBubbleTriggerType": "afterDelay",
+          "proactiveBubbleDelayTime": 10,
+          "conversationHistory": false,
+          "homePageEnabled": false,
+          "mainCardEnabled": false,
+          "conversationStartersEnabled": false,
+          "conversationStarters": [],
+          "conversationStartersDisplayStyle": "cards"
+        }
+      });
+
+      // "Ask Coach AI" floating button: opens the chat; hides itself
+      // while the chat is open (the chat window's X closes it and the
+      // button returns). State follows the webchat events so it stays
+      // correct no matter what opened the chat (e.g. a learn item's
+      // "Open coach" button in the action plan).
+      var fab = document.getElementById("askCoachBtn");
+      var chatOpen = false;
+
+      function setFab(open) {
+        chatOpen = open;
+        if (!fab) return;
+        fab.classList.toggle("is-open", open);
+        fab.setAttribute("aria-expanded", open ? "true" : "false");
+      }
+
+      if (typeof window.botpress.on === "function") {
+        window.botpress.on("webchat:opened", function () { setFab(true); });
+        window.botpress.on("webchat:closed", function () { setFab(false); });
+      }
+
+      if (fab) {
+        fab.addEventListener("click", function () {
+          try {
+            if (chatOpen) window.botpress.close();
+            else window.botpress.open();
+          } catch (e) { /* non-fatal */ }
+        });
+      }
+    })();
+  </script>
+
+  <script src="site.js"></script>
+
+  <!-- RAINIE: Workflow C level sync (Contract 4) is coded but OFF.
+       When the n8n webhook exists, enable it by uncommenting this line
+       and pasting the real webhook URL — app.js will then POST
+       { "user_id": "user1", "current_level": <n> } on every level-up.
+       While OFF, update current_level in the CoachStore sheet manually
+       for the demo (documented scoping decision). -->
+  <!-- <script>window.MFC_CONFIG = { workflowCUrl: "https://YOUR-N8N-HOST/webhook/workflow-c" };</script> -->
+
+  <!-- Ryan's calculation layer (the ONLY place math happens).
+       Contracts: Gemini 9-field JSON in via window.MFC.ingestExtraction
+       (Contract 2); dashboard out via updateDashboard (spec 3c); the 6
+       Botpress user variables out on init + every recalc (Contract 3);
+       optional Workflow C level sync (Contract 4, flag above). -->
+  <script src="app.js"></script>
+
+</body>
+</html>
