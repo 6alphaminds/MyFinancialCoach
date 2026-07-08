@@ -297,19 +297,21 @@
               <button class="btn btn-accent" type="button" data-goto="2">Let's go</button>
             </div>
 
-            <!-- Step 2 — Set up your own nudges (self-hosted bot) -->
+            <!-- Step 2 — Join our shared coach bot -->
             <div class="onboard-panel" data-step="2" hidden>
-              <h3 class="step-heading" tabindex="-1">Set up your own nudges</h3>
-              <p class="step-copy">Weekly check-ins come from a Telegram bot that <strong>you</strong> own and control. Creating one takes a few minutes:</p>
+              <h3 class="step-heading" tabindex="-1">Join our coach bot</h3>
+              <p class="step-copy">Your encouragement nudges come from the Alpha Minds coach bot on Telegram. Getting them takes two taps:</p>
 
               <ol class="setup-steps">
-                <li><strong>Create your bot.</strong> Message <code>@BotFather</code> on Telegram, send <code>/newbot</code>, follow the prompts, and copy your bot token.</li>
-                <li><strong>Add the token.</strong> Paste it into your n8n Telegram credential (or your Python scheduler config).</li>
-                <li><strong>Register yourself.</strong> Open a chat with your new bot and send <code>/start</code>.</li>
-                <li><strong>You're set.</strong> Your weekly nudges now come from your own bot.</li>
+                <li><strong>Open the bot.</strong> Tap the button below to open the coach bot in Telegram.</li>
+                <li><strong>Send <code>/start</code>.</strong> That links your Telegram to your coach — you'll get a nudge each time you complete a step.</li>
               </ol>
 
-              <p class="onboard-note">Your bot, your token, your data — nothing runs through anyone else's account.</p>
+              <div class="onboard-actions">
+                <a class="btn btn-accent btn-sm" href="https://t.me/alphaminds_c240_bot?start=demo-user" target="_blank" rel="noopener">Open the coach bot in Telegram</a>
+              </div>
+
+              <p class="onboard-note">You can mute or block the bot anytime from Telegram.</p>
 
               <div class="onboard-actions">
                 <button class="btn btn-ghost btn-sm" type="button" data-goto="1">Back</button>

@@ -545,10 +545,6 @@
     derived: {},         // computeAll() output
     currentLevel: 1,     // derived from items-based gating (deriveCurrentLevel)
     actions: {},         // action-plan statuses: id -> not_started|started|done
-    settings: {          // coach-event opt-in — BOTH must be set to fire;
-      tgChatId: "",      // either blank means events are OFF (no network)
-      n8nWebhook: ""
-    },
     lastUpdated: null
   };
   FIELDS.forEach(function (k) { state.inputs[k] = null; });
@@ -567,7 +563,6 @@
         derived: state.derived,
         currentLevel: state.currentLevel,
         actions: state.actions,
-        settings: state.settings,
         lastUpdated: state.lastUpdated
       }));
     } catch (e) { /* private mode / quota — state stays in memory */ }
@@ -598,12 +593,6 @@
           state.actions[id] = saved.actions[id];
         }
       });
-    }
-    // settings are additive to the v1 schema — older saves simply keep
-    // the blank defaults (events OFF) instead of forcing a version bump.
-    if (saved.settings && typeof saved.settings === "object") {
-      if (typeof saved.settings.tgChatId === "string") state.settings.tgChatId = saved.settings.tgChatId;
-      if (typeof saved.settings.n8nWebhook === "string") state.settings.n8nWebhook = saved.settings.n8nWebhook;
     }
     if (typeof saved.lastUpdated === "string") state.lastUpdated = saved.lastUpdated;
   }
@@ -820,22 +809,25 @@
   }
 
   /* =================================================================
-     COACH EVENTS — item_done / level_done to the self-hosted n8n
-     webhook. Opt-in: fires ONLY when both settings.tgChatId and
-     settings.n8nWebhook are set; either blank = hard no-op. The app
-     NEVER calls Telegram directly — the bot token stays server-side
-     in n8n; we only pass the chat id through. Fire-and-forget: never
-     blocks the UI, never throws (try/catch + .catch(()=>{})).
+     COACH EVENTS — item_done / level_done to the shared n8n webhook.
+     Shared coach-bot demo model: every user is the fixed MFC_USER_ID,
+     which n8n resolves to a Telegram chat via the /start deep link
+     (t.me/<bot>?start=<userId>). Fires on completion with NO user
+     input — no chat ID, no opt-in. The app NEVER calls Telegram
+     directly: the bot token stays server-side in n8n. Fire-and-forget:
+     never blocks the UI, never throws (try/catch + .catch(()=>{})).
+     The webhook URL is not a secret and is safe to hardcode.
      `var fn = function` so the self-tests can swap in a capture mock.
      ================================================================= */
+  var MFC_WEBHOOK_URL = "https://n8ngc.codeblazar.org/webhook/coach-event";
+  var MFC_USER_ID = "demo-user";
+
   var fireCoachEvent = function (payload) {
     try {
-      var s = state.settings || {};
-      if (!s.tgChatId || !s.n8nWebhook) return; // opt-in not configured
-      fetch(s.n8nWebhook, {
+      fetch(MFC_WEBHOOK_URL, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(Object.assign({ chatId: s.tgChatId }, payload)),
+        body: JSON.stringify(Object.assign({ userId: MFC_USER_ID }, payload)),
         keepalive: true // let an in-flight send survive navigation
       }).catch(function () { /* network failure is deliberately silent */ });
     } catch (e) { /* never blocks or throws into the UI */ }
@@ -1261,17 +1253,12 @@
     state.derived = computeAll(state.inputs); // all-null in -> null out, never NaN
     state.currentLevel = 1;
     state.actions = {};                       // action plan back to not_started
-    state.settings = { tgChatId: "", n8nWebhook: "" }; // Telegram opt-in back OFF
     state.lastUpdated = null;
 
     var ef = document.getElementById("entryForm");
     if (ef) ef.reset();
     var es = document.getElementById("entryStatus");
     if (es) { es.hidden = true; es.textContent = ""; }
-    var tf = document.getElementById("tgConnectForm");
-    if (tf) tf.reset();
-    var ts = document.getElementById("tgConnectStatus");
-    if (ts) { ts.textContent = "Off"; ts.className = "entry-status"; }
 
     // Clean Level-1 render + toast (site.js handles the reset flag).
     if (window.MFC && typeof window.MFC.updateDashboard === "function") {
@@ -1369,15 +1356,6 @@
   window.MFC.getPlan = function () {
     return generatePlan(state).actions;
   };
-  // Coach-event opt-in: set BOTH to enable item_done/level_done posts to
-  // the self-hosted n8n webhook; pass "" for either to switch back off.
-  // The Telegram token never appears here — it stays server-side in n8n.
-  window.MFC.setCoachEventSettings = function (tgChatId, n8nWebhook) {
-    state.settings.tgChatId = (typeof tgChatId === "string") ? tgChatId.trim() : "";
-    state.settings.n8nWebhook = (typeof n8nWebhook === "string") ? n8nWebhook.trim() : "";
-    saveState();
-    return { tgChatId: state.settings.tgChatId, n8nWebhook: state.settings.n8nWebhook };
-  };
 
   /* =================================================================
      COACH-EVENT SELF-TESTS — mock fireCoachEvent (capture, no network),
@@ -1415,7 +1393,6 @@
     state.derived = computeAll(state.inputs);
     state.currentLevel = 1;
     state.actions = {};
-    state.settings = { tgChatId: "", n8nWebhook: "" };
 
     // E1: attest item -> exactly one item_done, correct text + next
     setActionStatus("L1-A1", "done");
@@ -1475,25 +1452,23 @@
       items.length === 16 && levels.length === 4 &&
       levels.map(function (p) { return p.level; }).join(",") === "1,2,3,4");
 
-    // E7: the REAL fireCoachEvent — blank settings mean no fetch at all
+    // E7: the REAL fireCoachEvent — always-fire, no opt-in. Posts to the
+    // hardcoded shared webhook with userId merged (never a chat ID).
     var realFetch = window.fetch, fetchCalls = [];
     window.fetch = function (url, opts) {
       fetchCalls.push({ url: url, opts: opts });
       return { catch: function () {} };
     };
-    realFire({ event: "probe" });                       // both blank
-    state.settings = { tgChatId: "123", n8nWebhook: "" };
-    realFire({ event: "probe" });                       // webhook blank
-    check("E7 blank settings -> no fetch attempted", fetchCalls.length === 0);
-    state.settings = { tgChatId: "123", n8nWebhook: "https://n8n.example/hook" };
     realFire({ event: "probe" });
     var sent = fetchCalls[0] && JSON.parse(fetchCalls[0].opts.body);
-    check("E7b configured -> one POST, chatId merged, keepalive, no TG token",
+    check("E7 fires with no input -> one POST to hardcoded URL, userId merged, keepalive",
       fetchCalls.length === 1 &&
-      fetchCalls[0].url === "https://n8n.example/hook" &&
+      fetchCalls[0].url === MFC_WEBHOOK_URL &&
       fetchCalls[0].opts.method === "POST" &&
       fetchCalls[0].opts.keepalive === true &&
-      sent.chatId === "123" && sent.event === "probe");
+      sent.userId === MFC_USER_ID && sent.event === "probe");
+    check("E7b payload carries no chatId (shared-bot deep-link model)",
+      typeof sent.chatId === "undefined");
     window.fetch = realFetch;
 
     // spec printout: the captured payloads for level-closing transitions
@@ -1506,7 +1481,7 @@
     renderPlan = realPlan; pushLevelSync = realSync;
     state.inputs = snap.inputs; state.derived = snap.derived;
     state.currentLevel = snap.currentLevel; state.actions = snap.actions;
-    state.settings = snap.settings; state.lastUpdated = snap.lastUpdated;
+    state.lastUpdated = snap.lastUpdated;
     emittedLevels = {};
     try {
       if (savedLS === null) localStorage.removeItem(STATE_KEY);
@@ -1535,35 +1510,5 @@
   } else {
     renderPlan(); // empty state: "enter your numbers to generate your plan"
   }
-
-  /* =================================================================
-     CONNECT TELEGRAM (OPTIONAL) — settings UI wiring only. Reads and
-     writes go through window.MFC.setCoachEventSettings (the existing
-     save path); runs after loadState() so the pre-fill sees persisted
-     values. No plan-engine or completion logic here.
-     ================================================================= */
-  (function wireTelegramConnect() {
-    var form = document.getElementById("tgConnectForm");
-    var chatEl = document.getElementById("tgChatId");
-    var hookEl = document.getElementById("n8nWebhook");
-    var statusEl = document.getElementById("tgConnectStatus");
-    if (!form || !chatEl || !hookEl || !statusEl) return;
-
-    function renderTgStatus(s) {
-      var on = !!(s.tgChatId && s.n8nWebhook);
-      statusEl.textContent = on ? "Connected — you'll get encouragement messages" : "Off";
-      statusEl.className = "entry-status" + (on ? " is-ok" : "");
-    }
-
-    chatEl.value = state.settings.tgChatId;
-    hookEl.value = state.settings.n8nWebhook;
-    renderTgStatus(state.settings);
-
-    form.addEventListener("submit", function (e) {
-      e.preventDefault();
-      // setter trims, persists via saveState() and returns what stuck
-      renderTgStatus(window.MFC.setCoachEventSettings(chatEl.value, hookEl.value));
-    });
-  })();
 
 })();
