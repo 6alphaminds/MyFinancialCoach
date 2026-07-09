@@ -304,6 +304,19 @@
       if (typeof window.botpress.on === "function") {
         window.botpress.on("webchat:opened", function () { setFab(true); });
         window.botpress.on("webchat:closed", function () { setFab(false); });
+
+        // Contract 2 inbound: the coach emits a "Send Custom Event" card
+        // with { type: "mfc_extraction", <9 numeric fields> } after it
+        // extracts the user's figures. Feed it to the deterministic
+        // calculator — the SAME door the "Enter my numbers" panel uses.
+        // app.js validates/parses defensively and ignores the extra
+        // "type" key, so nothing else here needs to change.
+        window.botpress.on("customEvent", function (e) {
+          if (e && e.type === "mfc_extraction" &&
+              window.MFC && typeof window.MFC.ingestExtraction === "function") {
+            window.MFC.ingestExtraction(e);
+          }
+        });
       }
 
       if (fab) {
