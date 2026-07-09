@@ -312,9 +312,16 @@
         // app.js validates/parses defensively and ignores the extra
         // "type" key, so nothing else here needs to change.
         window.botpress.on("customEvent", function (e) {
-          if (e && e.type === "mfc_extraction" &&
+          // Botpress may deliver the Send-Custom-Event payload as an object
+          // OR as a JSON string depending on how the Event field is built —
+          // accept both so the type guard works either way.
+          var p = e;
+          if (typeof p === "string") {
+            try { p = JSON.parse(p); } catch (err) { return; }
+          }
+          if (p && p.type === "mfc_extraction" &&
               window.MFC && typeof window.MFC.ingestExtraction === "function") {
-            window.MFC.ingestExtraction(e);
+            window.MFC.ingestExtraction(p);
           }
         });
       }
