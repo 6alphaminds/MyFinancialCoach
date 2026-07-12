@@ -120,6 +120,13 @@
     onboarding.addEventListener("click", function (e) {
       var goBtn = e.target.closest("[data-goto]");
       if (goBtn) {
+        // Starting onboarding from the landing page = a new visitor. Mark a
+        // one-time "start fresh" intent; app.js clears any old progress the
+        // first time the visitor reaches app.html, however they get there.
+        // Cross-file contract: the key string must match app.js freshStart().
+        if (e.target.closest("[data-fresh-start]")) {
+          try { localStorage.setItem("mfc_fresh_pending", "1"); } catch (err) { /* private mode */ }
+        }
         goToStep(Number(goBtn.dataset.goto));
         return;
       }

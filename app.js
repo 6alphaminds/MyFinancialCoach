@@ -1504,16 +1504,23 @@
     pushDashboard();
   });
 
-  // Fresh-workspace entry: the landing "Start coaching" CTA links to
-  // app.html?fresh=1 so every new visitor starts clean. Reuse the existing
-  // resetData() path (clears mfc_state_v1 + in-memory state) BEFORE the first
-  // render below, then strip the query param so a refresh can't re-reset.
+  // Fresh-workspace entry: every new visitor starts clean. Two triggers:
+  //   1. ?fresh=1 — the landing "Start coaching" CTA links to app.html?fresh=1.
+  //   2. mfc_fresh_pending — a one-time flag site.js sets when the visitor
+  //      clicks "Let's go" to START onboarding, so the reset lands however
+  //      they reach app.html (Start coaching, nav, or direct URL).
+  // Either trigger reuses the existing resetData() path BEFORE the first render
+  // below; the flag is consumed and the query stripped so neither re-fires.
   (function freshStart() {
+    var PENDING_FRESH_KEY = "mfc_fresh_pending"; // must match site.js
     var isFresh;
     try { isFresh = new URLSearchParams(window.location.search).get("fresh") === "1"; }
     catch (e) { isFresh = /[?&]fresh=1(?:&|$)/.test(window.location.search); }
-    if (!isFresh) return;
+    var pending = false;
+    try { pending = localStorage.getItem(PENDING_FRESH_KEY) === "1"; } catch (e) {}
+    if (!isFresh && !pending) return;
     resetData(); // single source of truth for the reset — no duplicated logic
+    try { localStorage.removeItem(PENDING_FRESH_KEY); } catch (e) {} // consume once
     try {
       history.replaceState(null, "", window.location.pathname + window.location.hash);
     } catch (e) { /* non-fatal: the reset has already happened */ }
