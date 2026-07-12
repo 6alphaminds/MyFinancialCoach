@@ -987,17 +987,34 @@
       return { ok: false, reason: "ambiguous", note: note };
     }
 
-    // Merge: only finite, non-negative numbers land; null NEVER
-    // overwrites an existing value (C3).
-    var accepted = 0;
+    // Merge: only finite, non-negative numbers land; null NEVER overwrites an
+    // existing value (C3). Extension: for the two ANCHOR fields (take-home
+    // income and expenses) a 0 is treated as "not provided" — a 0 only nulls
+    // their derived targets, so a stray 0 from the extraction must never erase
+    // a real value. This is what was wiping the emergency-fund target when the
+    // bot sent monthly_expenses:0 for a field the user hadn't mentioned.
+    var accepted = 0, changed = 0;
     FIELDS.forEach(function (k) {
       var v = data[k];
-      if (isNum(v) && v >= 0) { state.inputs[k] = v; accepted++; }
+      var anchor = (k === "monthly_expenses" || k === "monthly_take_home_income");
+      if (isNum(v) && (anchor ? v > 0 : v >= 0)) {
+        if (state.inputs[k] !== v) changed++;
+        state.inputs[k] = v;
+        accepted++;
+      }
     });
 
     if (accepted === 0) {
       showEntryStatus("empty", "No numbers found in that update — nothing changed.");
       return { ok: false, reason: "no-fields" };
+    }
+
+    // Loop breaker: if nothing actually changed (e.g. the bot re-delivers the
+    // same extraction), skip recompute AND the mfc_user_data push it triggers.
+    // Without this, each redundant event recomputes and re-emits mfc_user_data,
+    // which the bot answers with another extraction — an infinite feedback loop.
+    if (changed === 0) {
+      return { ok: true, unchanged: true, derived: state.derived };
     }
 
     recompute();
