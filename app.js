@@ -1504,6 +1504,21 @@
     pushDashboard();
   });
 
+  // Fresh-workspace entry: the landing "Start coaching" CTA links to
+  // app.html?fresh=1 so every new visitor starts clean. Reuse the existing
+  // resetData() path (clears mfc_state_v1 + in-memory state) BEFORE the first
+  // render below, then strip the query param so a refresh can't re-reset.
+  (function freshStart() {
+    var isFresh;
+    try { isFresh = new URLSearchParams(window.location.search).get("fresh") === "1"; }
+    catch (e) { isFresh = /[?&]fresh=1(?:&|$)/.test(window.location.search); }
+    if (!isFresh) return;
+    resetData(); // single source of truth for the reset — no duplicated logic
+    try {
+      history.replaceState(null, "", window.location.pathname + window.location.hash);
+    } catch (e) { /* non-fatal: the reset has already happened */ }
+  })();
+
   loadState();
   if (hasAnyInput()) {
     recompute(); // derives, persists, pushes AND re-renders the plan
