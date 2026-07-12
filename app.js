@@ -15,6 +15,10 @@
 (function () {
   "use strict";
 
+  // Build stamp — look for this line in the console to confirm the browser is
+  // running the current app.js (not a cached/stale copy). Bump on each ship.
+  console.log("[app.js] build: loop-guard-v2 (2026-07-13)");
+
   /* =================================================================
      1. PURE MAS CALCULATIONS (spec §1) — same input, same output,
         no side effects, no network. All money values are monthly SGD
@@ -704,6 +708,7 @@
      ================================================================= */
   var bpPushedOnce = false; // updateUser succeeded at least once
   var bpEventOnce = false;  // mfc_user_data event delivered at least once
+  var lastSentVarsJson = null; // last pushed var payload (outbound loop guard)
 
   function buildVarStrings() {
     var vars = botpressUserVars();
@@ -722,6 +727,18 @@
     var bp = window.botpress;
     if (!bp) return false;
     var data = buildVarStrings();
+    var dataJson = JSON.stringify(data);
+
+    // Outbound loop guard: recalc-driven pushes never re-send vars that are
+    // byte-identical to the previous push. In the Botpress echo loop the same
+    // vars recur every cycle; suppressing the duplicate mfc_user_data event
+    // starves the bot -> app -> bot feedback at its feeder. init/retry stay
+    // exempt so first delivery keeps trying until the conversation opens.
+    var isRecalc = (reason !== "init" && reason !== "retry");
+    if (isRecalc && dataJson === lastSentVarsJson) {
+      return bpPushedOnce;
+    }
+    lastSentVarsJson = dataJson;
 
     // Channel 1 — user record (Contract 3 as documented): updateUser.
     if (typeof bp.updateUser === "function") {
