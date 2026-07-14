@@ -17,7 +17,7 @@
 
   // Build stamp — look for this line in the console to confirm the browser is
   // running the current app.js (not a cached/stale copy). Bump on each ship.
-  console.log("[app.js] build: loop-guard-v2 (2026-07-13)");
+  console.log("[app.js] build: empty-view-v3 (2026-07-13)");
 
   /* =================================================================
      1. PURE MAS CALCULATIONS (spec §1) — same input, same output,
@@ -1564,6 +1564,13 @@
   if (hasAnyInput()) {
     recompute(); // derives, persists, pushes AND re-renders the plan
   } else {
+    // No real data yet (a fresh workspace, or the user reset): show the cleared
+    // "enter your numbers" view instead of site.js's hardcoded SAMPLE numbers
+    // (59% / $2,478). Without this, returning to the workspace after a reset
+    // re-shows the sample and looks like the old data came back.
+    if (window.MFC && typeof window.MFC.updateDashboard === "function") {
+      window.MFC.updateDashboard({ empty: true });
+    }
     renderPlan(); // empty state: "enter your numbers to generate your plan"
   }
 

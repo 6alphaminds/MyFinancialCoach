@@ -320,9 +320,13 @@
     function update(data) {
       if (!data) return;
 
-      // Reset-my-data: clean Level-1 view (empty ring, cleared targets,
-      // L2-L4 locked) + a confirmation toast. No NaN, no computed figures.
-      if (data.reset === true) {
+      // Clean Level-1 view (empty ring, cleared targets, L2-L4 locked).
+      //   reset:true  — user clicked "Reset my data": clear + confirmation toast.
+      //   empty:true  — app.js on load found no real data: clear WITHOUT a toast,
+      //                 so returning after a reset shows the cleared view instead
+      //                 of the hardcoded sample numbers (no false "59% / $2,478").
+      // No NaN, no computed figures either way.
+      if (data.reset === true || data.empty === true) {
         state.currentLevel = 1;
         state.allComplete = false;
         state.levelOverride = null;
@@ -338,12 +342,15 @@
         var subEl = section.querySelector(".dash-sub");
         if (subEl) subEl.innerHTML = "Fresh start — enter your numbers below to see live progress.";
         if (!section.hidden) render();
-        var rt = get("toast");
-        if (rt) {
-          setText("toast-text", "Your data has been cleared — starting fresh.");
-          rt.hidden = false;
-          clearTimeout(rt._timer);
-          rt._timer = setTimeout(function () { rt.hidden = true; }, 2600);
+        // Toast only for a deliberate user reset, never on a normal empty load.
+        if (data.reset === true) {
+          var rt = get("toast");
+          if (rt) {
+            setText("toast-text", "Your data has been cleared — starting fresh.");
+            rt.hidden = false;
+            clearTimeout(rt._timer);
+            rt._timer = setTimeout(function () { rt.hidden = true; }, 2600);
+          }
         }
         return;
       }
