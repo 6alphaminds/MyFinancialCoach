@@ -90,7 +90,7 @@
     var ci = ciTarget(annual);
     return {
       emergencyTargetMin:  targetMin,
-      emergencyTargetFull: targetFull,   // internal only (A2 transfer sizing); never displayed
+      emergencyTargetFull: targetFull,   // 6-month figure — retained for compat; NOT used for sizing (target is 3-month) and never displayed
       // SINGLE 3-MONTH TARGET (amendment 2026-07-06): progress measures
       // against emergencyTargetMin — ring, plan, fund note and the
       // Botpress payload all read this value.
@@ -157,9 +157,11 @@
                  reason: "Enter your income, expenses and savings to generate your plan." };
       }
       var targetMin = d.emergencyTargetMin, target6 = d.emergencyTargetFull;
-      var shortfall = Math.max(0, target6 - i.current_savings);
-      // nearest-$50 of min(shortfall/12, 20% of take-home); floored at
-      // $50 so rounding can never suggest a $0 transfer
+      // Size the payday transfer against the 3-MONTH target (emergencyTargetMin,
+      // the single target since the 2026-07-06 amendment) — NOT the 6-month
+      // figure. Nearest $50 of min(shortfall / 12, 20% of take-home), floored at
+      // $50 so rounding can never suggest a $0 transfer.
+      var shortfall = Math.max(0, targetMin - i.current_savings);
       var raw = Math.min(shortfall / 12, 0.20 * i.monthly_take_home_income);
       var suggestedMonthly = Math.max(50, Math.round(raw / 50) * 50);
       var monthsToTarget = suggestedMonthly > 0 ? Math.ceil(shortfall / suggestedMonthly) : 0;
@@ -375,8 +377,11 @@
       });
       check("S5 no L1-A4 (SSB) and no L1-A0 remain",
         allIds.indexOf("L1-A4") === -1 && allIds.indexOf("L1-A0") === -1);
-      check("S6 dynamic values: A2 $300; A3 exact single-target text",
-        l1.actions[1].text.indexOf("$300") !== -1 &&
+      // A2 transfer is sized to the 3-month target: savings 1000 of 4200 ->
+      // shortfall 3200, /12 = 266.67, under the 20% cap (560) -> nearest $50 = $250.
+      var l1lo = buildLevel(1, mk({ current_savings: 1000 }));
+      check("S6 dynamic values: A2 $250 (sized to 3-month target); A3 exact single-target text",
+        l1lo.actions[1].text.indexOf("$250") !== -1 &&
         l1.actions[2].text === "Build your 3-month safety net ($4,200). Completes automatically when you reach it." &&
         l1.actions[2].amount === 4200);
       check("S7 L1 not ready on null inputs",
@@ -1434,7 +1439,7 @@
       captured[0].event === "item_done" && captured[0].itemId === "L1-A1" &&
       captured[0].level === 1 &&
       captured[0].itemText === "Open a high-yield savings account as your emergency-fund home." &&
-      captured[0].nextActionText === "Set up an automatic $550 transfer on payday into that savings account.");
+      captured[0].nextActionText === "Set up an automatic $250 transfer on payday into that savings account.");
 
     // E2: re-write of an already-done item and a "started" write fire nothing
     setActionStatus("L1-A1", "done");
@@ -1446,7 +1451,7 @@
     recompute();
     check("E3 auto latch fires one item_done", captured.length === 2 &&
       captured[1].event === "item_done" && captured[1].itemId === "L1-A3" &&
-      captured[1].nextActionText === "Set up an automatic $350 transfer on payday into that savings account.");
+      captured[1].nextActionText === "Set up an automatic $50 transfer on payday into that savings account.");
     recompute(); // later save — latch guard must block a re-fire
     check("E3b latch never re-fires on later saves", captured.length === 2);
 
